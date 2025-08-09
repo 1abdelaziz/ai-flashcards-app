@@ -112,7 +112,10 @@ function Collection({ collection, setCollections } : any) {
                 <p>{collection.description}</p>
             </CardContent>
             <CardFooter className="flex justify-between">
-                <span>{collection.flashCards.length} flashcard{collection.flashCards.length > 1 && "s"}</span>
+                <div className="flex gap-2">
+                    <span>{collection.flashCards.length} flashcard{collection.flashCards.length > 1 && "s"}</span>
+                    {collection.successRate > 0 && <span className="text-green-500">Success rate: {collection.successRate}%</span>}
+                </div>
                 <span>{creationDate.getDay() + "/" + creationDate.getMonth() + "/" + creationDate.getFullYear()}</span>
             </CardFooter>
         </Card>

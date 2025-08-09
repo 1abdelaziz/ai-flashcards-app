@@ -19,15 +19,21 @@ import {
     Eye,
     Check,
     X,
+    Trophy,
 } from "lucide-react";
 import { Link } from "react-router";
-import { useState } from "react";
+import { 
+	useState, 
+	useEffect 
+} from "react";
 
 interface FlashCardProps {
   flashCard: { question: string; answer: string; difficulty: number };
   onSuccess: React.MouseEventHandler<HTMLButtonElement>;
   onFailure: React.MouseEventHandler<HTMLButtonElement>;
 }
+
+type PageState = "flashCards" | "results";
 
 export default function Study() {
     const { collectionId } = useParams();
@@ -42,17 +48,84 @@ export default function Study() {
     }
 
     const flashCards = collection.flashCards;
-    const [currentCardIndex, setcurrentCardIndex] = useState(0);
+    const [currentCardIndex, setCurrentCardIndex] = useState(0);
+	const [rightQuestions, setRightQuestions] = useState(0);
+    const [pageState, setPageState] = useState<PageState>("flashCards");
+	const flashCard = flashCards[currentCardIndex];
+
+    function updateSuccessRateAndGoToResults() {
+        collection.successRate = (rightQuestions / flashCards.length) * 100;
+        localStorage.setItem("collections", JSON.stringify(collections));
+        setPageState("results");
+    }
+    
+	function onSuccess() {
+		setRightQuestions(rightQuestions + 1);
+		setCurrentCardIndex(currentCardIndex + 1);
+        if(currentCardIndex === flashCards.length - 1) {
+            updateSuccessRateAndGoToResults();
+        }
+	}
+
+	function onFailure() {
+		setCurrentCardIndex(currentCardIndex + 1);
+        if(currentCardIndex === flashCards.length - 1) {
+            updateSuccessRateAndGoToResults();
+        }
+    }
+
+    function handleRestart() {
+        setCurrentCardIndex(0);
+        setRightQuestions(0);
+        setPageState("flashCards");
+    }
 
     return (
         <>
-            <StudyHeader collectionName={"Collection name"} />
-            <ProgressWrapper cardsDone={currentCardIndex + 1} totalCards={flashCards.length} />
-            <FlashCard 
-                onSuccess={() => console.log("success")}
-                onFailure={() => console.log("failure")}
-                flashCard={flashCards[currentCardIndex]} 
-            />
+            {pageState === "flashCards" && (
+                <>
+                    <StudyHeader collectionName={"Collection name"} />
+                    <ProgressWrapper cardsDone={currentCardIndex + 1} totalCards={flashCards.length} />
+                    <FlashCard 
+                        onSuccess={onSuccess}
+                        onFailure={onFailure}
+                        flashCard={flashCard} 
+                    />
+                </>            
+            )}
+            {pageState === "results" && (
+                <>
+                    <div className="flex flex-col justify-center items-center">
+                        <div className="p-10 bg-yellow-500 rounded-full">
+                            <Trophy className="h-20 w-20" />
+                        </div>
+                        <h3 className="text-2xl my-5">Session completed!</h3>
+                        <Card className="my-5">
+                            <CardContent>
+                                <p className="my-3 text-center">{rightQuestions} out of {flashCards.length} questions were answered correctly</p>
+                                <p className="my-3 text-center">{Math.round((rightQuestions / flashCards.length) * 100)}% of the questions were answered correctly</p>
+                            </CardContent>
+                        </Card>
+                        <Button
+                            className="my-5"
+                            variant={"default"}
+                            size={"lg"}
+                            onClick={handleRestart}
+                        >
+                            <span>Restart</span>
+                        </Button>
+                        <Link to="/">
+                            <Button
+                                variant={"secondary"}
+                                size={"lg"}
+                                onClick={() => setPageState("flashCards")}
+                            >
+                                <span>Return to collections</span>
+                            </Button>
+                        </Link>
+                    </div>
+                </>
+            )}
         </>
     )
 }
@@ -111,6 +184,10 @@ function CollectionNotFound() {
 
 function FlashCard({ flashCard, onSuccess, onFailure }: FlashCardProps) {
     const [flipped, setFlipped] = useState(false);
+
+	useEffect(() => {
+		setFlipped(false);
+	}, [flashCard]);
 
     const handleShowingAnswer = () => {
         setFlipped((prev) => !prev);
@@ -185,4 +262,3 @@ function FlashCard({ flashCard, onSuccess, onFailure }: FlashCardProps) {
         </div>
     );
 }
-

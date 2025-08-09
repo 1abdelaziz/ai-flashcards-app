@@ -217,7 +217,8 @@ function FlashCardsPreviewer({ flashCards, setPageState } : { flashCards: Array<
 			name: collectionName,
 			description: collectionDescription ?? "No description provided",
 			creationDate: new Date().toISOString(),
-			flashCards: flashCards
+			flashCards: flashCards,
+			successRate: 0,
 		};
 		const existingCollections = JSON.parse(localStorage.getItem("collections") ?? "[]");
 

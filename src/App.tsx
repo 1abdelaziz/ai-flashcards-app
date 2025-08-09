@@ -1,12 +1,21 @@
 import Header from "./components/Header";
 import { Button } from "@/components/ui/button";
-import { CreditCard, Plus, Settings2 } from "lucide-react";
+import { 
+  CreditCard, 
+  Plus, 
+  Settings2 
+} from "lucide-react";
+import { 
+  BrowserRouter, 
+  Routes, 
+  Route, 
+  Link 
+} from "react-router";
+import { ThemeProvider } from "./components/theme-provider"; 
 
-import { BrowserRouter, Routes, Route, Link } from "react-router";
 import Home from "./pages/Home";
 import Create from "./pages/Create";
-
-import { ThemeProvider } from "./components/theme-provider"; 
+import Study from "./pages/Study";
 
 export default function App() {
   return (
@@ -33,10 +42,11 @@ export default function App() {
           </Link>
         </Header>
 
-        <main className="container mx-auto mb-5">
+        <main className="container max-w-[1000px] mx-auto mb-5">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/create" element={<Create />} />
+            <Route path="/study/:collectionId" element={<Study />} />
             <Route path="/settings" element={<h1>Settings</h1>} />
           </Routes>
         </main>

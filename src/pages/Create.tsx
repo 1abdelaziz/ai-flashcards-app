@@ -16,14 +16,21 @@ import {
     WandSparkles,
 	Book
 } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { 
+	useState, 
+	useRef, 
+	useEffect 
+} from "react";
+import { useNavigate } from "react-router";
+
+type Difficulty = 1 | 2 | 3;
 
 export default function Home() {
     const [charactersCount, setCharactersCount] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [textIsEmpty, setTextIsEmpty] = useState(true);
 	const [pageState, setPageState] = useState<"input" | "results">("input");
-	const [flashCards, setFlashCards] = useState<Array<{question: string, answer: string}>>([]);
+	const [flashCards, setFlashCards] = useState<Array<{question: string, answer: string, difficulty: number}>>([]);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     // Effects
@@ -43,6 +50,7 @@ export default function Home() {
 			.then((flashcards) => {
 				console.log(flashcards);
 				setIsLoading(false);
+				setTextIsEmpty(true);
 				setPageState("results");
 				setFlashCards(flashcards);
 			})
@@ -197,8 +205,25 @@ function TextExample({ children, title, textareaRef, setCharactersCount }: any) 
     );
 }
 
-function FlashCardsPreviewer({ flashCards, setPageState }: { flashCards: Array<{ question: string, answer: string }>, setPageState: any }) {
+function FlashCardsPreviewer({ flashCards, setPageState } : { flashCards: Array<{ question: string, answer: string, difficulty: number }>, setPageState: Function }) {
+	const navigate = useNavigate();
 	const [collectionName, setCollectionName] = useState("");
+	const [collectionDescription, setCollectionDescription] = useState("");
+	
+
+	function handleCollectionCreation() {
+		const collection = {
+			id: crypto.randomUUID(),
+			name: collectionName,
+			description: collectionDescription ?? "No description provided",
+			creationDate: new Date().toISOString(),
+			flashCards: flashCards
+		};
+		const existingCollections = JSON.parse(localStorage.getItem("collections") ?? "[]");
+
+		localStorage.setItem("collections", JSON.stringify([...existingCollections, collection]));
+		navigate("/");
+	}	
 
 	return (
 		<section className="container max-w-[1000px] mx-auto">
@@ -222,6 +247,7 @@ function FlashCardsPreviewer({ flashCards, setPageState }: { flashCards: Array<{
 					<div className="flex flex-col gap-2">
 						<Label htmlFor="collection-description">Collection description</Label>
 						<Input 
+							onChange={(e) => setCollectionDescription(e.target.value)}
 							id="collection-description" 
 							placeholder="ex: The solar system is made up of the Sun and celestial objects that orbit it." 
 							required
@@ -245,7 +271,7 @@ function FlashCardsPreviewer({ flashCards, setPageState }: { flashCards: Array<{
 					</CardContent>
 				</CardHeader>
 			</Card>
-						<div className="flex justify-between max-w-[1000px] mx-auto my-5">
+			<div className="flex justify-between max-w-[1000px] mx-auto my-5">
 				<Button 
 					variant={"outline"} 
 					size={"lg"} 
@@ -254,6 +280,7 @@ function FlashCardsPreviewer({ flashCards, setPageState }: { flashCards: Array<{
 					Return to text
 				</Button>
 				<Button
+					onClick={handleCollectionCreation}
 					disabled={!collectionName.trim()}
 					variant={"default"}
 					size={"lg"}
@@ -278,29 +305,34 @@ function FlashCard({ question, answer }: any) {
 	);
 }
 
-function mockAPICall(text: string) : Promise<Array<{ question: string, answer: string }>> {
+function mockAPICall(text: string) : Promise<Array<{ question: string, answer: string, difficulty: Difficulty }>> {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve([
                 {
                 	question: "Who was Leonardo da Vinci?",
                     answer: "An iconic figure of the Renaissance, a polymath.",
+                    difficulty: 1,
                 },  
                 {
                     question: "What is the Mona Lisa?",
                     answer: "A famous painting by Leonardo da Vinci.",
+                    difficulty: 2,
                 },
                 {
                     question: "When was the Mona Lisa painted?",
                     answer: "In the early 16th century.",
+                    difficulty: 3,
                 },
                 {
                     question: "Who is the subject of the Mona Lisa?",
                     answer: "Lisa del Giocondo, the wife of a wealthy merchant named Francesco del Giocondo.",
+                    difficulty: 2,
                 },
                 {
                     question: "What is the Mona Lisa known for?",
                     answer: "Its enigmatic smile and its incredible level of detail and realism.",
+                    difficulty: 2,
                 },
             ]);
         }, 1000);

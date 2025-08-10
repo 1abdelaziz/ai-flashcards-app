@@ -5,22 +5,22 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
+  "inline-flex items-center justify-center rounded-full border-0 px-3 py-1.5 text-xs font-bold w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1.5 [&>svg]:pointer-events-none focus-visible:ring-2 focus-visible:ring-purple-500/50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105",
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
+          "bg-gradient-to-r from-purple-600 to-blue-600 text-white [a&]:hover:from-purple-700 [a&]:hover:to-blue-700",
         secondary:
-          "border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
+          "bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 text-gray-900 dark:text-gray-100 [a&]:hover:from-gray-200 [a&]:hover:to-gray-300 dark:[a&]:hover:from-gray-600 dark:[a&]:hover:to-gray-700",
         destructive:
-          "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+          "bg-gradient-to-r from-red-500 to-red-600 text-white [a&]:hover:from-red-600 [a&]:hover:to-red-700",
         outline:
-          "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+          "text-gray-700 dark:text-gray-300 border-2 border-gray-200 dark:border-gray-600 bg-transparent [a&]:hover:bg-gray-50 dark:[a&]:hover:bg-gray-800 [a&]:hover:border-purple-300 dark:[a&]:hover:border-purple-600 backdrop-blur-sm",
         success:
-          "border-transparent bg-success text-success-foreground [a&]:hover:bg-success/90",
+          "bg-gradient-to-r from-green-500 to-emerald-600 text-white [a&]:hover:from-green-600 [a&]:hover:to-emerald-700",
         warning:
-          "border-transparent bg-warning text-warning-foreground [a&]:hover:bg-warning/90",
+          "bg-gradient-to-r from-orange-500 to-yellow-600 text-white [a&]:hover:from-orange-600 [a&]:hover:to-yellow-700",
       },
     },
     defaultVariants: {

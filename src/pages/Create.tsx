@@ -30,7 +30,7 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(false);
     const [textIsEmpty, setTextIsEmpty] = useState(true);
 	const [pageState, setPageState] = useState<"input" | "results">("input");
-	const [flashCards, setFlashCards] = useState<Array<{question: string, answer: string, difficulty: number}>>([]);
+	const [flashCards, setFlashCards] = useState<Array<{question: string, answer: string, difficulty: Difficulty}>>([]);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     // Effects
@@ -46,9 +46,8 @@ export default function Home() {
 			return;
 		}
 
-		mockAPICall(textareaRef.current?.value || "")
+		getFlashCards(textareaRef.current?.value || "")
 			.then((flashcards) => {
-				console.log(flashcards);
 				setIsLoading(false);
 				setTextIsEmpty(true);
 				setPageState("results");
@@ -294,48 +293,24 @@ function FlashCardsPreviewer({ flashCards, setPageState } : { flashCards: Array<
 }
 
 function FlashCard({ question, answer }: any) {
-	return (
-		<Card className="my-2">
-			<CardContent>
-				<h4 className="text-xl">Question:</h4>
-				<p>{question}</p>
-				<h4 className="text-xl">Answer:</h4>
-				<p>{answer}</p>
-			</CardContent>
-		</Card>
-	);
+    return (
+        <Card className="my-2">
+            <CardContent>
+                <h4 className="text-xl">Question:</h4>
+                <p>{question}</p>
+                <h4 className="text-xl">Answer:</h4>
+                <p>{answer}</p>
+            </CardContent>
+        </Card>
+    );
 }
 
-function mockAPICall(text: string) : Promise<Array<{ question: string, answer: string, difficulty: Difficulty }>> {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve([
-                {
-                	question: "Who was Leonardo da Vinci?",
-                    answer: "An iconic figure of the Renaissance, a polymath.",
-                    difficulty: 1,
-                },  
-                {
-                    question: "What is the Mona Lisa?",
-                    answer: "A famous painting by Leonardo da Vinci.",
-                    difficulty: 2,
-                },
-                {
-                    question: "When was the Mona Lisa painted?",
-                    answer: "In the early 16th century.",
-                    difficulty: 3,
-                },
-                {
-                    question: "Who is the subject of the Mona Lisa?",
-                    answer: "Lisa del Giocondo, the wife of a wealthy merchant named Francesco del Giocondo.",
-                    difficulty: 2,
-                },
-                {
-                    question: "What is the Mona Lisa known for?",
-                    answer: "Its enigmatic smile and its incredible level of detail and realism.",
-                    difficulty: 2,
-                },
-            ]);
-        }, 1000);
-    });
-}	
+async function getFlashCards(text: string) {
+  const res = await fetch("http://localhost:5000/api/flashcards", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text }),
+  });
+
+  return await res.json();
+}

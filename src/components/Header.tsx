@@ -22,7 +22,7 @@ export default function Header({ children }: any) {
         </div>
 
         {/* Center: Navigation */}
-        <nav className="flex gap-4 justify-center mt-6 md:mt-4">
+        <nav className="flex gap-4 justify-center mt-3 md:mt-4">
           <div className="flex gap-3 p-2 rounded-2xl bg-white/10 dark:bg-black/20 backdrop-blur-sm border border-white/20 dark:border-white/10 shadow-lg">
             {children}
           </div>

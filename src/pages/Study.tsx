@@ -89,9 +89,7 @@ export default function Study() {
     const successRate = Math.round((rightQuestions / flashCards.length) * 100);
 
     return (
-        <div className="min-h-screen relative bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-blue-900/20">
-            <div className="particles"></div>
-            
+        <div className="min-h-screen relative">
             {pageState === "flashCards" && (
                 <div className="relative z-10">
                     <StudyHeader collectionName={collection.name} onRestart={handleRestart} />
@@ -100,7 +98,7 @@ export default function Study() {
                         totalCards={flashCards.length}
                         rightAnswers={rightQuestions}
                     />
-                    <div className="container max-w-2xl mx-auto px-4 mt-8">
+                    <div className="container max-w-2xl mx-auto px-4 m-8">
                         <FlashCard 
                             onSuccess={onSuccess}
                             onFailure={onFailure}
@@ -229,7 +227,7 @@ export default function Study() {
 
 function StudyHeader({ collectionName, onRestart } : { collectionName: string, onRestart: () => void }) {
     return (
-        <div className="sticky top-0 z-20 backdrop-blur-sm bg-white/80 dark:bg-gray-900/80 border-b border-white/20 dark:border-gray-700/50">
+        <div className="sticky top-0 z-20">
             <div className="container mx-auto px-4 py-6">
                 <div className="flex justify-between items-center max-w-4xl mx-auto">
                     <Link to="/">
@@ -256,7 +254,7 @@ function StudyHeader({ collectionName, onRestart } : { collectionName: string, o
                             </Button>
                         </TooltipTrigger>
                         <TooltipContent>
-                            <p>Restart Session</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-300">Restart Session</p>
                         </TooltipContent>
                     </Tooltip>
                 </div>

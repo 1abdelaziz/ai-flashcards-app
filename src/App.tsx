@@ -47,7 +47,7 @@ export default function App() {
             )}
           </NavLink>
         </Header>
-        <main className="container max-w-[1000px] mx-auto mb-5">
+        <main className="container max-w-[1000px] mx-auto mb-5 pb-5">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/create" element={<Create />} />

@@ -292,18 +292,13 @@ function FlashCardsPreviewer({ flashCards, setPageState } : { flashCards: Array<
             {/* Preview Cards */}
             <Card className="shadow-xl opacity-0 animate-[fade-in-up_0.6s_ease-out_0.2s_forwards]">
                 <CardHeader>
-                    <CardTitle className="flex items-center justify-between">
+                    <CardTitle className="flex items-center">
                         <div className="flex items-center gap-3">
                             <div className="bg-gradient-to-br from-blue-500 to-purple-500 p-2 rounded-lg text-white">
                                 <Sparkles className="h-5 w-5" />
                             </div>
                             <span className="text-xl">
                                 Generated Flashcards ({flashCards.length})
-                            </span>
-                        </div>
-                        <div className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 px-4 py-2 rounded-full">
-                            <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">
-                                AI Powered ✨
                             </span>
                         </div>
                     </CardTitle>

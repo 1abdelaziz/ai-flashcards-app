@@ -168,12 +168,7 @@ export default function Study() {
                                         <span>Overall Performance</span>
                                         <span>{successRate}%</span>
                                     </div>
-                                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
-                                        <div 
-                                            className="h-full bg-gradient-to-r from-green-500 to-emerald-600 rounded-full transition-all duration-1000 ease-out enhanced-progress"
-                                            style={{width: `${successRate}%`}}
-                                        ></div>
-                                    </div>
+                                    <Progress value={successRate} className="h-2" />
                                 </div>
 
                                 {/* Performance message */}

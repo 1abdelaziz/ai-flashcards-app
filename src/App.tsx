@@ -9,7 +9,7 @@ import {
   BrowserRouter, 
   Routes, 
   Route, 
-  Link 
+  NavLink 
 } from "react-router";
 import { ThemeProvider } from "./components/theme-provider"; 
 
@@ -22,26 +22,31 @@ export default function App() {
     <ThemeProvider defaultTheme="system" storageKey="ui-theme">
       <BrowserRouter>
         <Header>
-          <Link to="/">
-            <Button variant={"secondary"}>
-              <CreditCard className="mr-1 h-4 w-4" />
-              Collections
-            </Button>
-          </Link>
-          <Link to="/create">
-            <Button variant={"secondary"}>
-              <Plus className="mr-1 h-4 w-4" />
-              Create
-            </Button>
-          </Link>
-          <Link to="/settings">
-            <Button variant={"secondary"}>
-              <Settings2 className="mr-1 h-4 w-4" />
-              Settings
-            </Button>
-          </Link>
+          <NavLink to="/">
+            {({ isActive }) => (
+              <Button variant={isActive ? "default" : "secondary"}>
+                <CreditCard className="mr-1 h-4 w-4" />
+                Collections
+              </Button>
+            )}
+          </NavLink>
+          <NavLink to="/create">
+            {({ isActive }) => (
+              <Button variant={isActive ? "default" : "secondary"}>
+                <Plus className="mr-1 h-4 w-4" />
+                Create
+              </Button>
+            )}
+          </NavLink>
+          <NavLink to="/settings">
+            {({ isActive }) => (
+              <Button variant={isActive ? "default" : "secondary"}>
+                <Settings2 className="mr-1 h-4 w-4" />
+                Settings
+              </Button>
+            )}
+          </NavLink>
         </Header>
-
         <main className="container max-w-[1000px] mx-auto mb-5">
           <Routes>
             <Route path="/" element={<Home />} />

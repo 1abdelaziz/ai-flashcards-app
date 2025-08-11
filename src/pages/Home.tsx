@@ -11,7 +11,7 @@ import {
     Link, 
     useNavigate 
 } from "react-router";
-import { useEffect, useState, } from "react";
+import { useState, } from "react";
 import { 
     Card,
     CardHeader, 

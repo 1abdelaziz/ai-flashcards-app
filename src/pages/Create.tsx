@@ -109,7 +109,7 @@ export default function Create() {
                                         onClick={handleFlashcardsRequest}
                                         className="px-8 py-3 text-base font-bold shadow-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
                                         variant="default" 
-                                        size="lg"
+                                        size="sm"
                                         disabled={isLoading || textIsEmpty}
                                     >
                                         {isLoading ? (

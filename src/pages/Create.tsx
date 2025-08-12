@@ -405,7 +405,7 @@ function FlashCard({ question, answer, difficulty, index }: any) {
 }
 
 async function getFlashCards(text: string) {
-  const res = await fetch("http://localhost:5000/api/flashcards", {
+  const res = await fetch("https://initial-objective-theater-stability.trycloudflare.com/api/flashcards", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text }),

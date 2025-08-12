@@ -2,7 +2,7 @@ import { ModeToggle } from "./mode-toggle";
 
 export default function Header({ children }: any) {
   return (
-    <header className="relative z-10 p-6 bg-gradient-to-r from-transparent via-white/10 to-transparent backdrop-blur-sm border-b border-white/20">
+    <header className="p-6 bg-gradient-to-r from-transparent via-white/10 to-transparent backdrop-blur-sm border-b border-white/20">
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
           {/* Left: Logo and Title */}
@@ -22,7 +22,7 @@ export default function Header({ children }: any) {
         </div>
 
         {/* Center: Navigation */}
-        <nav className="flex gap-4 justify-center mt-3 md:mt-4">
+        <nav className="flex gap-4 justify-center mt-3">
           <div className="flex gap-3 p-2 rounded-2xl bg-white/10 dark:bg-black/20 backdrop-blur-sm border border-white/20 dark:border-white/10 shadow-lg">
             {children}
           </div>
